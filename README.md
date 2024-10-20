@@ -12,7 +12,8 @@
 - **Node.js**: JavaScript runtime used to build the backend.
 - **Express.js**: Web framework for Node.js used to create the RESTful API.
 - **PostgreSQL**: SQL database for storing user data, balances, and transaction history.
-- **Knex.js**: SQL query builder for database migrations and queries.
+- **Pg**: PostgreSQL client for Node.js used to manage database connections efficiently.
+- **Knex.js**: SQL query builder for database migrations and seeder.
 - **Multer**: Middleware for handling file uploads.
 - **Joi**: Library for input validation (used for validating registration, login, and file uploads).
 - **JWT (JSON Web Tokens)**: Used for user authentication and securing API routes.
