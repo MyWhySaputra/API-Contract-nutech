@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { Balence, TopUp, Transaction, TransactionHistory } = require("../../controllers/TransactionController");
-const { Auth } = require("../../middlewares/TransactionMiddleware");
+const { Auth, MiddTopup } = require("../../middlewares/TransactionMiddleware");
 
 /**
  * @swagger
@@ -117,13 +117,23 @@ router.get("/balence", Auth, Balence);
  *               properties:
  *                 status:
  *                   type: integer
- *                   example: 102
  *                 message:
  *                   type: string
- *                   example: Paramter amount hanya boleh angka dan tidak boleh lebih kecil dari 0
  *                 data:
  *                   type: object
- *                   example: null
+ *             examples:
+ *               amountNotValid:
+ *                 summary: Parameter amount hanya boleh angka dan tidak boleh lebih kecil dari 0
+ *                 value:
+ *                   status: 102
+ *                   message: Paramter amount hanya boleh angka dan tidak boleh lebih kecil dari 0
+ *                   data: null
+ *               topUpNotNumber:
+ *                 summary: \"top_up_amount\" must be a number
+ *                 value:
+ *                   status: 102
+ *                   message: \"top_up_amount\" must be a number
+ *                   data: null
  *       401:
  *         description: Unauthorized
  *         content:
@@ -141,7 +151,7 @@ router.get("/balence", Auth, Balence);
  *                   type: object
  *                   example: null
  */
-router.post("/topup", Auth, TopUp);
+router.post("/topup", Auth, MiddTopup, TopUp);
 /**
  * @swagger
  * /api/v1/transaction:
@@ -223,6 +233,19 @@ router.post("/topup", Auth, TopUp);
  *                 data:
  *                   type: object
  *                   example: null
+ *             examples:
+ *               ServiceNotFound:
+ *                 summary: Layanan Tidak Ditemukan
+ *                 value:
+ *                   status: 102
+ *                   message: Service ataus Layanan tidak ditemukan
+ *                   data: null
+ *               BalanceNotEnough:
+ *                 summary: Saldo Tidak Cukup
+ *                 value:
+ *                   status: 102
+ *                   message: Saldo anda tidak mencukupi
+ *                   data: null
  *       401:
  *         description: Unauthorized
  *         content:

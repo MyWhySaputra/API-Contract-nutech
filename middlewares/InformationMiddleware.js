@@ -1,5 +1,4 @@
 const { ResponseTemplate } = require("../helpers/templateHelper");
-const Joi = require("joi");
 const jwt = require("jsonwebtoken");
 
 async function Auth(req, res, next) {

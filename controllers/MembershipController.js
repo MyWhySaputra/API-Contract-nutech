@@ -55,8 +55,8 @@ async function Login(req, res) {
     ]);
 
     if (checkUser.rows.length === 0) {
-      let resp = ResponseTemplate(0, "email not found", null);
-      res.status(400).json(resp);
+      let resp = ResponseTemplate(103, "email not found", null);
+      res.status(401).json(resp);
       return;
     }
 
@@ -66,8 +66,8 @@ async function Login(req, res) {
     );
 
     if (!checkPassword) {
-      let resp = ResponseTemplate(0, "password is not correct", null);
-      res.status(400).json(resp);
+      let resp = ResponseTemplate(103, "password is not correct", null);
+      res.status(401).json(resp);
       return;
     }
 

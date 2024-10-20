@@ -30,6 +30,29 @@ async function Auth(req, res, next) {
   }
 }
 
+async function MiddTopup(req, res, next) {
+  try {
+    const schema = Joi.object({
+      top_up_amount: Joi.number().required(),
+    });
+  
+    const { error } = schema.validate(req.body);
+  
+    if (error) {
+      let resp = ResponseTemplate(102, error.details[0].message, null);
+      res.status(400).json(resp);
+      return;
+    }
+  
+    next();
+  } catch (error) {
+    let resp = ResponseTemplate(500, "internal server error", null);
+    res.status(500).json(resp);
+    return;
+  }
+} 
+
 module.exports = {
   Auth,
+  MiddTopup
 };

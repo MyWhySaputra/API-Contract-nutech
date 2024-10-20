@@ -77,6 +77,22 @@ const { Auth, MiddRegis, MiddLogin, FileValidation } = require("../../middleware
  *                   status: 102
  *                   message: \password\ length must be at least 8 characters long
  *                   data: null
+ *       404:
+ *         description: Email already exist
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 404
+ *                 message:
+ *                   type: string
+ *                   example: Email already exist
+ *                 data:
+ *                   type: object
+ *                   example: null
  */
 router.post("/registration", MiddRegis, Registration);
 /**
@@ -151,13 +167,23 @@ router.post("/registration", MiddRegis, Registration);
  *               properties:
  *                 status:
  *                   type: integer
- *                   example: 103
  *                 message:
  *                   type: string
- *                   example: Username atau password salah
  *                 data:
  *                   type: object
- *                   example: null
+ *             examples:
+ *               emailNotFound:
+ *                 summary: Email Tidak Ditemukan
+ *                 value:
+ *                   status: 103
+ *                   message: email not found
+ *                   data: null
+ *               passwordNotValid:
+ *                 summary: Password Tidak Sesuai
+ *                 value:
+ *                   status: 103
+ *                   message: password is not correct
+ *                   data: null
  */
 router.post("/login", MiddLogin, Login);
 /**
