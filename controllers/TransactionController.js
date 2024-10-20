@@ -5,10 +5,11 @@ const pool = require("../database/db");
 const invoiceNumber = GenerateInvoice();
 
 async function Balence(req, res) {
+  const client = await pool.connect();
   try {
     const userEmail = req.user.email;
 
-    const query = await pool.query("SELECT * FROM users WHERE email = $1", [
+    const query = await client.query("SELECT * FROM users WHERE email = $1", [
       userEmail,
     ]);
 
@@ -29,9 +30,12 @@ async function Balence(req, res) {
     let resp = ResponseTemplate(500, "internal server error", error);
     res.status(500).json(resp);
     return;
+  } finally {
+    client.release();
   }
 }
 async function TopUp(req, res) {
+  const client = await pool.connect();
   try {
     const { top_up_amount } = req.body;
     const email = req.user.email;
@@ -46,7 +50,7 @@ async function TopUp(req, res) {
       return;
     }
 
-    const updateBalanceQuery = await pool.query(
+    const updateBalanceQuery = await client.query(
       "UPDATE users SET balance = COALESCE(balance, 0) + $1 WHERE email = $2 RETURNING balance",
       [top_up_amount, email]
     );
@@ -57,7 +61,7 @@ async function TopUp(req, res) {
       return;
     }
 
-    await pool.query(
+    await client.query(
       "INSERT INTO transaction_history (email, invoice_number, transaction_type, description, total_amount) VALUES ($1, $2, $3, $4, $5)",
       [email, invoiceNumber, "TOPUP", "Top Up balance", top_up_amount]
     );
@@ -73,15 +77,18 @@ async function TopUp(req, res) {
     let resp = ResponseTemplate(500, "internal server error", error);
     res.status(500).json(resp);
     return;
+  } finally {
+    client.release();
   }
 }
 async function Transaction(req, res) {
+  const client = await pool.connect();
   try {
     const { service_code } = req.body;
 
     const email = req.user.email;
 
-    const checkService = await pool.query(
+    const checkService = await client.query(
       "SELECT * FROM services WHERE service_code = $1",
       [service_code]
     );
@@ -96,7 +103,7 @@ async function Transaction(req, res) {
       return;
     }
 
-    const checkUser = await pool.query("SELECT * FROM users WHERE email = $1", [
+    const checkUser = await client.query("SELECT * FROM users WHERE email = $1", [
       email,
     ]);
 
@@ -106,12 +113,12 @@ async function Transaction(req, res) {
       return;
     }
 
-    await pool.query(
+    await client.query(
       "UPDATE users SET balance = balance - $1 WHERE email = $2",
       [checkService.rows[0].service_tarif, email]
     );
 
-    const history = await pool.query(
+    const history = await client.query(
       "INSERT INTO transaction_history (email, invoice_number, transaction_type, description, total_amount) VALUES ($1, $2, $3, $4, $5) RETURNING *",
       [
         email,
@@ -138,9 +145,12 @@ async function Transaction(req, res) {
     let resp = ResponseTemplate(500, "internal server error", error);
     res.status(500).json(resp);
     return;
+  } finally {
+    client.release();
   }
 }
 async function TransactionHistory(req, res) {
+  const client = await pool.connect();
   try {
     const email = req.user.email;
 
@@ -157,7 +167,7 @@ async function TransactionHistory(req, res) {
     const queryValues =
       limit !== null ? [email, offset, limit] : [email, offset];
 
-    const query = await pool.query(queryText, queryValues);
+    const query = await client.query(queryText, queryValues);
 
     if (query.rows.length === 0) {
       let resp = ResponseTemplate(0, "Transaction History not found", null);
@@ -178,6 +188,8 @@ async function TransactionHistory(req, res) {
     let resp = ResponseTemplate(500, "internal server error", error);
     res.status(500).json(resp);
     return;
+  } finally {
+    client.release();
   }
 }
 

@@ -2,8 +2,9 @@ const { ResponseTemplate } = require("../helpers/templateHelper");
 const pool = require("../database/db");
 
 async function Banner(req, res) {
+  const client = await pool.connect();
   try {
-    const query = await pool.query(
+    const query = await client.query(
       "SELECT banner_name, banner_image, description FROM banners"
     );
 
@@ -20,11 +21,14 @@ async function Banner(req, res) {
     let resp = ResponseTemplate(500, "internal server error", error);
     res.status(500).json(resp);
     return;
+  } finally {
+    client.release();
   }
 }
 async function Service(req, res) {
+  const client = await pool.connect();
   try {
-    const query = await pool.query(
+    const query = await client.query(
       "SELECT service_code, service_name, service_icon, service_tarif FROM services"
     );
 
@@ -41,6 +45,8 @@ async function Service(req, res) {
     let resp = ResponseTemplate(500, "internal server error", error);
     res.status(500).json(resp);
     return;
+  } finally {
+    client.release();
   }
 }
 

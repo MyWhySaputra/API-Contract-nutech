@@ -6,12 +6,13 @@ var imagekit = require("../lib/imagekit");
 var jwt = require("jsonwebtoken");
 
 async function Registration(req, res) {
+  const client = await pool.connect();
   try {
     const { email, first_name, last_name, password } = req.body;
 
     const hashPass = await HashPassword(password);
 
-    const queryEmail = await pool.query(
+    const queryEmail = await client.query(
       "SELECT email FROM users WHERE email = $1",
       [email]
     );
@@ -22,7 +23,7 @@ async function Registration(req, res) {
       return;
     }
 
-    const queryCreate = await pool.query(
+    const queryCreate = await client.query(
       "INSERT INTO users (email, first_name, last_name, password) VALUES ($1, $2, $3, $4)",
       [email, first_name, last_name, hashPass]
     );
@@ -40,13 +41,16 @@ async function Registration(req, res) {
     let resp = ResponseTemplate(500, "internal server error", error);
     res.status(500).json(resp);
     return;
+  } finally {
+    client.release();
   }
 }
 async function Login(req, res) {
+  const client = await pool.connect();
   try {
     const { email, password } = req.body;
 
-    const checkUser = await pool.query("SELECT * FROM users WHERE email = $1", [
+    const checkUser = await client.query("SELECT * FROM users WHERE email = $1", [
       email,
     ]);
 
@@ -86,13 +90,16 @@ async function Login(req, res) {
     let resp = ResponseTemplate(500, "internal server error", error);
     res.status(500).json(resp);
     return;
+  } finally {
+    client.release();
   }
 }
 async function Profile(req, res) {
+  const client = await pool.connect();
   try {
     const userEmail = req.user.email;
 
-    const query = await pool.query("SELECT * FROM users WHERE email = $1", [
+    const query = await client.query("SELECT * FROM users WHERE email = $1", [
       userEmail,
     ]);
 
@@ -116,20 +123,23 @@ async function Profile(req, res) {
     let resp = ResponseTemplate(500, "internal server error", error);
     res.status(500).json(resp);
     return;
+  } finally {
+    client.release();
   }
 }
 async function Update(req, res) {
+  const client = await pool.connect();
   try {
     const userEmail = req.user.email;
 
     const { first_name, last_name } = req.body;
 
-    const query = await pool.query(
+    const query = await client.query(
       "UPDATE users SET first_name = $1, last_name = $2 WHERE email = $3",
       [first_name, last_name, userEmail]
     );
 
-    const checkUser = await pool.query("SELECT * FROM users WHERE email = $1", [
+    const checkUser = await client.query("SELECT * FROM users WHERE email = $1", [
       userEmail,
     ]);
 
@@ -149,9 +159,12 @@ async function Update(req, res) {
     let resp = ResponseTemplate(500, "internal server error", error);
     res.status(500).json(resp);
     return;
+  } finally {
+    client.release();
   }
 }
 async function UpdateImage(req, res) {
+  const client = await pool.connect();
   try {
     const userEmail = req.user.email;
 
@@ -162,12 +175,12 @@ async function UpdateImage(req, res) {
       file: stringFile,
     });
 
-    const query = await pool.query(
+    const query = await client.query(
       "UPDATE users SET profile_image = $1 WHERE email = $2",
       [uploadFile.url, userEmail]
     );
 
-    const checkUser = await pool.query("SELECT * FROM users WHERE email = $1", [
+    const checkUser = await client.query("SELECT * FROM users WHERE email = $1", [
       userEmail,
     ]);
 
@@ -187,6 +200,8 @@ async function UpdateImage(req, res) {
     let resp = ResponseTemplate(500, "internal server error", error);
     res.status(500).json(resp);
     return;
+  } finally {
+    client.release();
   }
 }
 
