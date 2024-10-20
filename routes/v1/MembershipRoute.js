@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer")();
 const { Registration, Login, Profile, Update, UpdateImage } = require("../../controllers/MembershipController");
-const { Auth, MiddRegisLogin, FileValidation } = require("../../middlewares/MembershipMiddleware");
+const { Auth, MiddRegis, MiddLogin, FileValidation } = require("../../middlewares/MembershipMiddleware");
 
 /**
  * @swagger
@@ -78,7 +78,7 @@ const { Auth, MiddRegisLogin, FileValidation } = require("../../middlewares/Memb
  *                   message: \password\ length must be at least 8 characters long
  *                   data: null
  */
-router.post("/registration", MiddRegisLogin, Registration);
+router.post("/registration", MiddRegis, Registration);
 /**
  * @swagger
  * /api/v1/login:
@@ -159,7 +159,7 @@ router.post("/registration", MiddRegisLogin, Registration);
  *                   type: object
  *                   example: null
  */
-router.post("/login", MiddRegisLogin, Login);
+router.post("/login", MiddLogin, Login);
 /**
  * @swagger
  * /api/v1/profile:

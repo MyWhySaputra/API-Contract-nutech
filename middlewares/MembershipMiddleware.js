@@ -30,7 +30,23 @@ async function Auth(req, res, next) {
   }
 }
 
-async function MiddRegisLogin(req, res, next) {
+async function MiddRegis(req, res, next) {
+  const schema = Joi.object({
+    email: Joi.string().email().required(),
+    first_name: Joi.string().required(),
+    last_name: Joi.string().required(),
+    password: Joi.string().min(8).required(),
+  });
+  const { error } = schema.validate(req.body);
+  if (error) {
+    let resp = ResponseTemplate(102, error.details[0].message, null);
+    res.status(400).json(resp);
+    return;
+  }
+  next();
+}
+
+async function MiddLogin(req, res, next) {
   const schema = Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().min(8).required(),
@@ -70,6 +86,7 @@ async function FileValidation(req, res, next) {
 
 module.exports = {
   Auth,
-  MiddRegisLogin,
+  MiddRegis,
+  MiddLogin,
   FileValidation,
 };
