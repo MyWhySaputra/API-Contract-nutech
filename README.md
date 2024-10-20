@@ -17,9 +17,9 @@
 - **Joi**: Library for input validation (used for validating registration, login, and file uploads).
 - **JWT (JSON Web Tokens)**: Used for user authentication and securing API routes.
 - **Dotenv**: Loads environment variables from a `.env` file into `process.env`.
-- **imagekit**: Cloud-based image optimization and storage service used for uploading and managing profile images.
-- **morgan**: HTTP request logger middleware used for logging requests to the server for debugging and monitoring.
-- **swagger**: API documentation tool that allows you to describe your RESTful API and provides an interactive UI to test the endpoints.
+- **Imagekit**: Cloud-based image optimization and storage service used for uploading and managing profile images.
+- **Morgan**: HTTP request logger middleware used for logging requests to the server for debugging and monitoring.
+- **Swagger**: API documentation tool that allows you to describe your RESTful API and provides an interactive UI to test the endpoints.
 
 ## Installation
 
@@ -42,11 +42,11 @@ Create a `.env` file in the root directory and add your database credentials and
 PORT=
 BASE_URL='http://localhost:8080'
 SALT_ROUND=
-SECRET_KEY="dsadas"
-IMAGEKIT_PUBLIC_KEY=""
-IMAGEKIT_PRIVATE_KEY=""
-IMAGEKIT_URL_ENDPOINT=""
-DATABASE_URL=""
+SECRET_KEY=
+IMAGEKIT_PUBLIC_KEY=
+IMAGEKIT_PRIVATE_KEY=
+IMAGEKIT_URL_ENDPOINT=
+DATABASE_URL=
 ```
 
 ### Migrate the Database:
