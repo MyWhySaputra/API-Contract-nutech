@@ -17,6 +17,7 @@
 - **Multer**: Middleware for handling file uploads.
 - **Joi**: Library for input validation (used for validating registration, login, and file uploads).
 - **JWT (JSON Web Tokens)**: Used for user authentication and securing API routes.
+- **Bcrypt**: Password hashing library used to securely hash and salt passwords, adding an extra layer of protection for stored passwords.
 - **Dotenv**: Loads environment variables from a `.env` file into `process.env`.
 - **Imagekit**: Cloud-based image optimization and storage service used for uploading and managing profile images.
 - **Morgan**: HTTP request logger middleware used for logging requests to the server for debugging and monitoring.

@@ -93,6 +93,21 @@ const { Auth, MiddRegis, MiddLogin, FileValidation } = require("../../middleware
  *                 data:
  *                   type: object
  *                   example: null
+ *       500:
+ *          description: Internal Server Error
+ *          content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: internal server error
+ *                 data:
+ *                   type: object
  */
 router.post("/registration", MiddRegis, Registration);
 /**
@@ -184,6 +199,21 @@ router.post("/registration", MiddRegis, Registration);
  *                   status: 103
  *                   message: password is not correct
  *                   data: null
+ *       500:
+ *          description: Internal Server Error
+ *          content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: internal server error
+ *                 data:
+ *                   type: object
  */
 router.post("/login", MiddLogin, Login);
 /**
@@ -248,6 +278,21 @@ router.post("/login", MiddLogin, Login);
  *                 data:
  *                   type: object
  *                   example: null
+ *       500:
+ *          description: Internal Server Error
+ *          content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: internal server error
+ *                 data:
+ *                   type: object
  */
 router.get("/profile", Auth, Profile);
 /**
@@ -323,6 +368,21 @@ router.get("/profile", Auth, Profile);
  *                 data:
  *                   type: object
  *                   example: null
+ *       500:
+ *          description: Internal Server Error
+ *          content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: internal server error
+ *                 data:
+ *                   type: object
  */
 router.put("/profile/update", Auth, Update);
 /**
@@ -398,6 +458,21 @@ router.put("/profile/update", Auth, Update);
  *                 data:
  *                   type: object
  *                   example: null
+ *       500:
+ *          description: Internal Server Error
+ *          content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: internal server error
+ *                 data:
+ *                   type: object
  */
 router.put("/profile/image", Auth, multer.single("file"), FileValidation, UpdateImage);
 

@@ -56,6 +56,21 @@ const { Auth, MiddTopup } = require("../../middlewares/TransactionMiddleware");
  *                 data:
  *                   type: object
  *                   example: null
+ *       500:
+ *          description: Internal Server Error
+ *          content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: internal server error
+ *                 data:
+ *                   type: object
  */
 router.get("/balence", Auth, Balence);
 /**
@@ -150,6 +165,21 @@ router.get("/balence", Auth, Balence);
  *                 data:
  *                   type: object
  *                   example: null
+ *       500:
+ *          description: Internal Server Error
+ *          content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: internal server error
+ *                 data:
+ *                   type: object
  */
 router.post("/topup", Auth, MiddTopup, TopUp);
 /**
@@ -262,6 +292,21 @@ router.post("/topup", Auth, MiddTopup, TopUp);
  *                 data:
  *                   type: object
  *                   example: null
+ *       500:
+ *          description: Internal Server Error
+ *          content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: internal server error
+ *                 data:
+ *                   type: object
  */
 router.post("/transaction", Auth, Transaction);
 /**
@@ -380,6 +425,21 @@ router.post("/transaction", Auth, Transaction);
  *                 data:
  *                   type: object
  *                   example: null
+ *       500:
+ *          description: Internal Server Error
+ *          content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: internal server error
+ *                 data:
+ *                   type: object
  */
 router.get("/transaction/history", Auth, TransactionHistory);
 

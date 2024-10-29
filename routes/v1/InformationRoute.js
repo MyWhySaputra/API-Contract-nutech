@@ -84,6 +84,21 @@ const { Auth } = require("../../middlewares/InformationMiddleware");
  *                 data:
  *                   type: object
  *                   example: null
+ *       500:
+ *          description: Internal Server Error
+ *          content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: internal server error
+ *                 data:
+ *                   type: object
  */
 router.get("/banner", Banner);
 /**
@@ -202,6 +217,21 @@ router.get("/banner", Banner);
  *                 data:
  *                   type: object
  *                   example: null
+ *       500:
+ *          description: Internal Server Error
+ *          content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: internal server error
+ *                 data:
+ *                   type: object
  */
 router.get("/services", Auth, Service);
 

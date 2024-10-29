@@ -1,8 +1,8 @@
 make-migrate:
-		npx knex migrate:make create_users_banners_services_transaction_history --knexfile lib/knexfile.js
+		npx knex migrate:make create_users_banners_services_transaction_history --knexfile knexfile.js
 
 make-seed:
-		npx knex seed:make create_users_banners_services_transaction_history --knexfile lib/knexfile.js
+		npx knex seed:make create_users_banners_services_transaction_history --knexfile knexfile.js
 
 migrate:
 		npm run migrate
